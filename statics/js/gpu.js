@@ -68,9 +68,10 @@ GPU.prototype = {
       self.fps = self.drawn;
       self.drawn = 0;
 
-      if(self.focussed && self.fps >= 40)
-        for(var i=0;i<15;i++)
-          self.addShader();
+      // iPhone browsers may sustain around 30 FPS, below the original
+      // 40 FPS ramp-up threshold. Add workload gradually, with a hard cap.
+      if(self.focussed && self.fps >= 25 && self.shaders.length < 4)
+        self.addShader();
 
     },1000);
 
